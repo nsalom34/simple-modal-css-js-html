@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSS for modals</title>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: cursive;
+            }
+
+            body {
+                background: #40b3a2;
+                height: 100vh;
+                color: #fff;
+            }
+
+            .mainContent {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                position: static;
+            }
+
+            .center {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .modalOutter {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                background: rgba(0, 0, 0, 0.3);
+                display: none;
+            }
+            .modalInner {
+                background: #e27d5e;
+                width: 40%;
+                text-align: center;
+                padding: 2rem;
+                position: relative;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            h1 {
+                font-size: 3.5rem;
+            }
+            .title-container h1 {
+                display: inline;
+                border-bottom: 4px #fff solid;
+                padding-bottom: 0.5rem;
+            }
+            p {
+                font-size: 2rem;
+            }
+            .title-container {
+                padding: 1rem 2rem;
+            }
+            .second-line {
+                padding-top: 2rem;
+                width: 25rem;
+                border-bottom: 4px #fff solid;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="mainContent">
+            <div class="title-container">
+                <h1>This is the main page</h1>
+                <div class="second-line"></div>
+            </div>
+            <div class="center">
+                <p id="modal-status"></p>
+                <a href="#" id="show-modal-button">Show Modal</a>
+            </div>
+
+            <div class="modalOutter" id="modal-overlay">
+                <div class="modalInner" id="modal-content">
+                    <h1>
+                        Hello, I am a simple modal. All of this is HTML / CSS /
+                        JS
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const MODAL_STATUS = {
+                open:
+                    'the modal is active, click anywhere but on the modal to close',
+                close: 'the modal is currently not active',
+            };
+            const modalButtonOpen = document.getElementById(
+                'show-modal-button'
+            );
+            const modalOutter = document.getElementById('modal-overlay');
+            const modalInner = document.getElementById('modal-content');
+            const modalStatusText = document.getElementById('modal-status');
+
+            const toggleModalStatusText = (text) =>
+                (modalStatusText.innerHTML = text);
+
+            const toggleModalStatus = (status) => {
+                modalOutter.style.display = status == 'open' ? 'block' : 'none';
+                toggleModalStatusText(MODAL_STATUS[status]);
+            };
+
+            modalButtonOpen.addEventListener('click', (e) => {
+                toggleModalStatus('open');
+            });
+
+            modalOutter.addEventListener('click', (e) => {
+                if (e.path.indexOf(modalInner) == -1) {
+                    toggleModalStatus('close');
+                }
+            });
+
+            toggleModalStatusText(MODAL_STATUS['close']);
+        </script>
+    </body>
+</html>
